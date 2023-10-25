@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Wildberries</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Информация о заказе</h1>
+        <label for="orderUidInput"></label>
+        <input type="text" id="orderUidInput" placeholder="Введите order_uid">
+        <button id="goToOrderButton">Перейти к заказу</button>
+        <pre>Введите номер вашего заказа и получите по нему информацию!</pre>
+        <div class="error-container" id="errorContainer"></div>
+    </div>
+
+    <script>
+        const orderUidInput = document.querySelector('#orderUidInput');
+        const goToOrderButton = document.querySelector('#goToOrderButton');
+        const errorContainer = document.querySelector('#errorContainer');
+        const preContainer = document.querySelector('pre')
+        goToOrderButton.addEventListener('click', function () {
+            const orderUid = orderUidInput.value;
+            if (orderUid) {
+                window.location.href = `/order/${orderUid}`;
+                errorContainer.style.display = 'none';
+            }
+        });
+
+        const orderInfo = {{ .order }};
+        const error = {{ .error }};
+        if (orderInfo) {
+            preContainer.textContent = JSON.stringify(orderInfo, null, 4);
+        } else if (error) {
+            errorContainer.textContent = error;
+            preContainer.style.display = 'none'
+            errorContainer.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+.container {
+    max-width: 80%;
+    margin: 0 auto;
+}
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+    background-color: #f0f0f0;
+}
+
+h1 {
+    color: #8E44AD;
+}
+
+button, input {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #8E44AD;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+input {
+    width: 30%;
+    padding: 10px;
+}
+
+.error-container {
+    display: none;
+    width: 100%;
+    text-align: center;
+    background-color: #ff6b6b;
+    color: white;
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+pre {
+    text-align: left;
+    background-color: #e0e0e0;
+    padding: 20px;
+    border-radius: 5px;
+    overflow: auto;
+    margin: 10px auto;
+}
+input::placeholder {
+    color: white;
+}

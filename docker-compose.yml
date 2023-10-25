@@ -1,0 +1,43 @@
+version: "3.8"
+services:
+  app:
+    build: "."
+    ports:
+      - "${HTTP_PORT}:${HTTP_PORT}"
+    restart: on-failure
+    env_file:
+      - .env
+    depends_on:
+      - "postgres"
+      - "nats-streaming"
+
+  postgres:
+    image:
+      postgres:15.2-alpine
+    environment:
+      POSTGRES_DB: ${PGDATABASE}
+      POSTGRES_USER: ${PGUSER}
+      POSTGRES_PASSWORD: ${PGPASSWORD}
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - .:/var/lib/postgresql/data
+    ports:
+      - "5432"
+    env_file:
+      - .env
+
+  migrate:
+    image: migrate/migrate
+    env_file:
+      - .env
+    volumes:
+      - ./migrations:/migrations
+    command: [ "-path", "/migrations", "-database",  "postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}/${PGDATABASE}?sslmode=${PGSSLMODE}", "up" ]
+    depends_on:
+      - "postgres"
+
+  nats-streaming:
+    image: nats-streaming:latest
+    ports:
+      - "4222:4222"
+      - "8222:8222"
